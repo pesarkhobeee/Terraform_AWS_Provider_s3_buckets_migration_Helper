@@ -1,0 +1,28 @@
+/*
+resource "aws_s3_bucket_lifecycle_configuration" "{{ bucket_name }}-bucket-lifecycle-config" {
+  bucket = aws_s3_bucket.{{ bucket_name }}.id
+
+  rule {
+    id     = "rule-1"
+    status = "Enabled"
+
+    filter {
+      prefix = "SQL_SCHEMA/"
+    }
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 720
+    }
+  }
+}
+*/

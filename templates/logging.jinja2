@@ -1,0 +1,8 @@
+/*
+resource "aws_s3_bucket_logging" "{{ bucket_name }}-bucket-logging" {
+  bucket = aws_s3_bucket.{{ bucket_name }}.id
+
+  target_bucket = var.aws_s3_bucket-apt-repository-access-logs-id
+  target_prefix = "logs/apt-${var.bucket_name}/"
+}
+*/

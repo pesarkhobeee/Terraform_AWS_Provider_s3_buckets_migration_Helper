@@ -1,0 +1,6 @@
+/*
+resource "aws_s3_bucket_policy" "{{ bucket_name }}-bucket-policy" {
+  bucket = aws_s3_bucket.{{ bucket_name }}.id
+  policy = data.aws_iam_policy_document.normalized-bucket-policy.json
+}
+*/
