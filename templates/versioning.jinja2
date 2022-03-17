@@ -1,0 +1,8 @@
+/*
+resource "aws_s3_bucket_versioning" "{{ bucket_name }}-bucket-versioning" {
+  bucket = aws_s3_bucket.{{ bucket_name }}.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+*/
