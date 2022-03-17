@@ -6,9 +6,8 @@ import logging
 import argparse
 from jinja2 import Environment, FileSystemLoader
 
-most_wanted = {"acl", "lifecycle_rule", "logging", "website", "policy"}
+most_wanted = {"acl", "lifecycle_rule", "logging", "website", "policy", "server_side_encryption_configuratio"}
 suspects    = {}
-
 
 def investigator(file_name, dry_run):
   with open(file_name, 'r') as file:
