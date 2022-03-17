@@ -37,7 +37,7 @@ def commentor(file_name, s3_bucket_name, wanted_element):
   new_comment = template.render(bucket_name=s3_bucket_name)
   logging.info(new_comment)
   with open(file_name, "a") as file_object:
-    file_object.write(new_comment)
+    file_object.write("\n" + new_comment)
 
 def input_lines(inp: str):
     """Get lines from input."""

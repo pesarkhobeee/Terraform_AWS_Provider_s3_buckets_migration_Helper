@@ -1,5 +1,5 @@
 /*
-resource "aws_s3_bucket_acl" "{{ bucket_name }}_bucket_acl" {
+resource "aws_s3_bucket_acl" "{{ bucket_name }}-bucket-acl" {
   bucket = aws_s3_bucket.{{ bucket_name }}.id
   acl    = "private"
 }
