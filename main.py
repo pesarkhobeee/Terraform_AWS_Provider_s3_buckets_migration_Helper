@@ -25,7 +25,7 @@ def investigator(file_name, dry_run):
             commentor(file_name, s3_bucket_name, e)
 
 def reporter():
-    print(f"It is going to change {len(suspects)} files, you can find the details here:")
+    print(f"It found {len(suspects)} files, you can find the details here:")
     print(suspects)
 
 def commentor(file_name, s3_bucket_name, wanted_element):
@@ -36,16 +36,26 @@ def commentor(file_name, s3_bucket_name, wanted_element):
     lstrip_blocks=True)
   template = env.get_template(wanted_element + ".jinja2")
   new_comment = template.render(bucket_name=s3_bucket_name)
-  logging.info(new_content)
+  logging.info(new_comment)
   with open(file_name, "a") as file_object:
     file_object.write(new_comment)
 
+def input_lines(inp: str):
+    """Get lines from input."""
+    if inp == ['-']:
+        return sys.stdin
+
+    return inp
+
 def main(args):
   try:
-    for f in args.terraform_files:
-        logging.info(f"Investigating {f.name}")
-        investigator(f.name, args.dry_run)
-    print("finished")
+    for f in input_lines(args.terraform_files):
+        file_name  = f.rstrip()
+        # ignore empty lines and comments
+        if len(file_name) == 0:
+            continue
+        logging.info(f"Investigating {file_name}")
+        investigator(file_name, args.dry_run)
     reporter()
   except Exception as e:
     logging.critical("Fatal error hapend: {}".format(e))
@@ -54,16 +64,18 @@ def main(args):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(
-      'terraform_files', nargs='+', default=[], type=argparse.FileType('r'),
-      help='List of terraform files that we would like to investigate about'
+      'terraform_files', nargs='+', default=[],
+      help='search pattern file, if `-` pattern is read from stdin'
   )
   parser.add_argument('-d', '--dry-run', action='store_true',
-          help='Not adding any comments to the terraform files')
+          help='not adding any comments to the terraform files')
   parser.add_argument(
       '--log-level', type=str, default="WARNING",
-      help='Set the logging level. Defaults to WARNING.'
+      help='set the logging level. Defaults to WARNING.'
   )
+
   parsed_args = parser.parse_args()
+
   logging.getLogger()
   logging.basicConfig(
       format='%(asctime)s %(levelname)s %(message)s',
@@ -72,4 +84,5 @@ if __name__ == "__main__":
   logging.info(
       f"Starting with given arguments: {format(parsed_args)}"
   )
+
   main(parsed_args)
